@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 function Header() {
@@ -9,9 +10,9 @@ function Header() {
 					<div className="header-inner df ai-center jc-between">
 						<div className="header-logo__box df ai-center jc-between">
 							<div className="header-logo mr60">
-								<a href="#">
+								<Link to="/">
 									<img src="images/logo.svg" alt="" />
-								</a>
+								</Link>
 							</div>
 
 							<div className="header-search pr">
