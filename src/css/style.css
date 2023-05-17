@@ -100,6 +100,23 @@ svg {
 	display: block !important;
 }
 
+.purchase {
+	background: #FF4C34;
+	border-radius: 15px;
+	border: transparent;
+	padding: 7px 0;
+	text-align: center;
+	width: 100%;
+	font-size: 16px;
+	line-height: 16px;
+	border: 1px solid transparent;
+}
+.purchase:hover{
+	border-color: #FF4C34;
+	background: #fff;
+	color: #000;
+}
+
 .title .title-text {
 	line-height: 29px;
 	font-weight: 600;
@@ -1354,11 +1371,13 @@ input::-webkit-inner-spin-button {
 	line-height: 16px;
 	border: 1px solid transparent;
 }
-.product .product-left .pizza .pizza-card button:hover{
+
+.product .product-left .pizza .pizza-card button:hover {
 	background: #fff;
 	color: #000;
 	border-color: #FF4C34;
 }
+
 .product .product-right {
 	top: 0;
 	right: 0;

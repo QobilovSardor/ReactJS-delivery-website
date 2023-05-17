@@ -13,6 +13,8 @@ import Category from "./products/Category";
 function App() {
 	const [data, setData] = useState([]);
 	const [meals, setMeals] = useState([]);
+	const [category, setCategory] = useState([]);
+
 
 	useEffect(() => {
 		getAllCategory().then(data => setData(data.categories))
@@ -29,7 +31,7 @@ function App() {
 			<Routes>
 				<Route path="/" element={<ProductItem data={data} />} />
 				<Route path="/products" element={<ProductPageTwo meals={meals} />} />
-				<Route path="/category" element={<Category />} />
+				<Route path="/category/:name" element={<Category />} />
 				<Route path="*" element={<NoteFound />} />
 			</Routes>
 			<Footer />

@@ -1,12 +1,25 @@
 import React, {useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
+import { getFilterCategory } from '../config/api';
+import NoteFound from '../layouts/NoteFound';
+import CategoryItem from './CategoryItem';
 
 function Category() {
-	const { category } = useParams();
-	console.log(category, "saslom");
+	const { name } = useParams();
+	const [meals, setMeals] = useState([]);
+
+	useEffect(() => {
+		getFilterCategory(name).then(data => {
+			setMeals(data.meals);
+		})
+	}, [name]);
 	return (
 		<div className='container'>
-			
+			<div className="row">
+				{!meals.length ? <NoteFound /> : meals.map(meal => (
+					<CategoryItem key={meal.idMeal} {...meal} />
+				))}
+			</div>
 		</div>
 	)
 }
