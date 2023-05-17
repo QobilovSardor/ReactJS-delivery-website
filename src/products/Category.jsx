@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import { getFilterCategory } from '../config/api';
-import NoteFound from '../layouts/NoteFound';
+import Loader from '../layouts/Loader';
 import CategoryItem from './CategoryItem';
 
 function Category() {
@@ -16,7 +16,7 @@ function Category() {
 	return (
 		<div className='container'>
 			<div className="row">
-				{!meals.length ? <NoteFound /> : meals.map(meal => (
+				{!meals.length ? <Loader /> : meals.map(meal => (
 					<CategoryItem key={meal.idMeal} {...meal} />
 				))}
 			</div>

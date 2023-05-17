@@ -9,6 +9,7 @@ import { getAllCategory, getFilterCategory } from './config/api';
 import ProductItem from "./products/ProductItem";
 import { useEffect, useState } from 'react'
 import Category from "./products/Category";
+import Recipe from "./products/Recipe";
 
 function App() {
 	const [data, setData] = useState([]);
@@ -32,6 +33,7 @@ function App() {
 				<Route path="/" element={<ProductItem data={data} />} />
 				<Route path="/products" element={<ProductPageTwo meals={meals} />} />
 				<Route path="/category/:name" element={<Category />} />
+				<Route path="/meal/:id" element={<Recipe />} />
 				<Route path="*" element={<NoteFound />} />
 			</Routes>
 			<Footer />
