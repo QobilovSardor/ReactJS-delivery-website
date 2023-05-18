@@ -518,7 +518,16 @@ svg {
 	z-index: 1;
 	padding: 8px;
 }
-
+.recipe-table{
+	width: 100%;
+}
+.recipe-table th{
+	text-align: left;
+}
+.recipe-table td{
+	border-bottom: 1px solid #aaa;
+	padding: 10px 0;
+}
 .product-slider__box-content h4 {
 	margin-top: 25px;
 }
@@ -531,6 +540,7 @@ svg {
 
 .product-slider__box-img img {
 	width: 100%;
+	border-radius: 10px;
 }
 
 .product-slider__icon-price {

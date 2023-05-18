@@ -24,7 +24,7 @@ function ProductItem(props) {
 											<h2 className="fw700 fs20">Domino's Pizza</h2>
 										</div>
 										<div>
-											<a className="btn mt10" href="#">Перейти</a>
+											<Link className="btn mt10" to="/products">Перейти</Link>
 										</div>
 									</div>
 								</div>
@@ -385,7 +385,7 @@ function ProductItem(props) {
 					<div className="row">
 						<div className="col-lg-12">
 							<div className="title">
-								<h1 className="title-text fw600 fs24">Все рестораны</h1>
+								<h1 className="title-text fw600 fs24">Все продукты</h1>
 							</div>
 						</div>
 						<div className="row mt20">

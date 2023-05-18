@@ -14,8 +14,6 @@ import Recipe from "./products/Recipe";
 function App() {
 	const [data, setData] = useState([]);
 	const [meals, setMeals] = useState([]);
-	const [category, setCategory] = useState([]);
-
 
 	useEffect(() => {
 		getAllCategory().then(data => setData(data.categories))

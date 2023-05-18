@@ -67,7 +67,12 @@ class="fw900 fs18 p20 br10 b2"
 Все что касается гридов - недопустимо.
 
 */
-
+.gap-1{
+	gap: 0.5rem;
+}
+.w-auto{
+	width: auto;
+}
 html {
 	font-family: sans-serif;
 	-ms-text-size-adjust: 100%;

@@ -12,7 +12,7 @@ function Category() {
 		getFilterCategory(name).then(data => {
 			setMeals(data.meals);
 		})
-	}, [name]);
+	}, []);
 	return (
 		<div className='container'>
 			<div className="row">
