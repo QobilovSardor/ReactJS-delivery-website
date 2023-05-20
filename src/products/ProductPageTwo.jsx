@@ -1,10 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "react-tooltip/dist/react-tooltip.css";
-import { Tooltip as ReactTooltip } from "react-tooltip";
 import { Link } from 'react-router-dom';
+import Loader from '../layouts/Loader';
+import { Tooltip as ReactTooltip } from 'react-tooltip'
+function ProductPageTwo({ meals = [], addToBacket }) {
+	const [showModal, setShowModal] = useState(false);
+	const [count, setCount] = useState(1);
+	const [quantity, setQuantity] = useState(751);
+	const [oldQuantity, setOldQuantity] = useState(936);
+	const price = 751;
+	const oldPrice = 936;
 
+	const handelClick = () => {
+		setShowModal(!showModal)
+	}
 
-function ProductPageTwo({ meals = [] }) {
+	const handleIncrement = () => {
+		setCount(count + 1);
+		setQuantity(quantity + price);
+		setOldQuantity(oldQuantity + oldPrice)
+	};
+
+	const handleDecrement = () => {
+		if (count > 1) {
+			setCount(count - 1);
+		}
+		if (quantity > price) {
+			setQuantity(quantity - price);
+		}
+		if (oldQuantity > oldPrice) {
+			setOldQuantity(oldQuantity - oldPrice)
+		}
+	};
+
+	const mealsMap = () => {
+		meals.map(item => (
+			addToBacket(item.idMeal, item.strMeal)
+		))
+	}
 
 	return (
 		<div className='container'>
@@ -248,7 +281,7 @@ function ProductPageTwo({ meals = [] }) {
 								<div className="basket-bottom-series df ai-center jc-between">
 									<div className="series mr10">
 										<div className="car">
-											<img src="./images/icon-basket-bottom.svg" alt="" />
+											<img src="/./images/icon-basket-bottom.svg" alt="" />
 										</div>
 									</div>
 									<div className="series">
@@ -281,11 +314,11 @@ function ProductPageTwo({ meals = [] }) {
 
 						<section className="pizza mb40">
 							<div className="row">
-								{meals.map(meal => (
+								{meals.length ? meals.map(meal => (
 									<div key={meal.idMeal} className="col-lg-2 col-md-4 col-sm-4 col-xs-6 col-6 mb20">
 										<div className="pizza-card">
 											<div className="pizza-card-img pr">
-												<div className="discount pa">
+												{/* <div className="discount pa">
 													<div className="discount-series mb5 discount-series-1 df ai-center">
 														<div className="series-icon mr5 df ai-center">
 															<img src="./images/discount-icon.svg" alt="" />
@@ -298,31 +331,150 @@ function ProductPageTwo({ meals = [] }) {
 														</div>
 														<p className="fw600 c-white">Выгодно</p>
 													</div>
-												</div>
+												</div> */}
 												<div className='pr'>
-													<div className="cashback df ai-center pa">
+													{/* <div className="cashback df ai-center pa">
 														<div className="series-icon mr5 df ai-center">
 															<img src="./images/icon-rubl.svg" alt="" />
 														</div>
 														<p className="fw600 c-white">Кэшбэк 3%</p>
-													</div>
+													</div> */}
 													<img src={meal.strMealThumb} alt="" />
 												</div>
 												<div>
-													{/* <div className="price mt15">
+													<div className="price mt15">
 														<h6 className="lh20 df ai-center">751₽ <span className="fw500 fs12 db">936₽</span></h6>
-													</div> */}
+													</div>
 													<h6 className="fw600 lh16">{meal.strMeal}</h6>
 												</div>
 											</div>
 											<div className="pizza-card-about">
-												<button type="button" className="purchase fw500 c-white">Добавить</button>
+												<button onClick={handelClick} type="button" className="purchase fw500 c-white">Добавить</button>
 											</div>
 										</div>
 									</div>
-								))}
+								)) : <Loader />}
 							</div>
 						</section>
+
+						{/* <!-- add-modal start --> */}
+						{showModal ? (
+							<div className="add-modal pf">
+								<div className="modal-wrap pr">
+									<button onClick={handelClick} type="button" className="modal-close pa">
+										<img src="./images/clode-modal.svg" alt="" />
+									</button>
+									<div className="df media-modal">
+										<div className="modal-left mr15">
+											<div className="modal-img">
+												<img src="./images/modal-pizza.png" alt="" />
+											</div>
+										</div>
+										<div className="modal-right pr">
+											<div className="modal-about">
+												<h5 className="fw600 fs24">Пицца Четыре сыра</h5>
+												<p className="fw400 fs14">Состав: Тесто (20х30 см), сливочный соус, моцарелла, сыр с плесенью,
+													чеддер,
+													пармезан</p>
+											</div>
+											<div className="pizza-tools mt15">
+												<div className="tool-series">
+													<h5 className="fw400 fs14 db mb5 mt15">Размер</h5>
+													<div className="tool size-tool df ai-center">
+														<button className="fw400 fs14 size-click" type="button">Маленькая</button>
+														<button className="fw400 fs14" type="button">Средняя</button>
+														<button className="fw400 fs14" type="button">Большая</button>
+													</div>
+												</div>
+												<div className="tool-series dough-series">
+													<h5 className="fw400 fs14 db mt15">Тесто</h5>
+													<div className="tool dough-tool df ai-center">
+														<button className="fw400 fs14 dough-click" type="button">Традиционное</button>
+														<button className="fw400 fs14" type="button">Тонкое</button>
+													</div>
+												</div>
+												<div className="modal-price mt15">
+													<h5 className="fw400 fs14 db mb5 mt15">Добавить по вкусу</h5>
+													<div className="price-tools df jc-between">
+														<div className="price-card price-card-click df ai-center jc-center">
+															<h6 className="fw400 fs12 tac">Моцарелла</h6>
+															<div className="price-count df ai-center jc-between">
+																<div className="conunt-number df ai-center jc-between">
+																	<span className="db ai-center fw400 fs20">&minus;</span> <span
+																		className="db mr15 ml15 fs12 fw400">2</span> <span className="db ai-center fw400 fs20">+</span>
+																</div>
+																<h5 className="price fw600 fs14">158₽</h5>
+															</div>
+														</div>
+														<div className="price-card df ai-center jc-center">
+															<h6 className="fw400 fs12 tac">Свежая пекинская капуста</h6>
+															<h5 className="price fw600 tac fs14">158₽</h5>
+														</div>
+														<div className="price-card df ai-center jc-center">
+															<h6 className="fw400 fs12 tac">Цыпленок</h6>
+															<h5 className="price fw600 tac fs14">79₽</h5>
+														</div>
+														<div className="price-card df ai-center jc-center">
+															<h6 className="fw400 fs12 tac">Ветчина</h6>
+															<div className="price-count df ai-center jc-between">
+																<div className="conunt-number df ai-center jc-between">
+																	<span className="db ai-center fw400 fs20">&minus;</span> <span
+																		className="db mr15 ml15 fs12 fw400">2</span> <span className="db ai-center fw400 fs20">+</span>
+																</div>
+																<h5 className="price fw600 fs14">158₽</h5>
+															</div>
+														</div>
+														<div className="price-card df ai-center jc-center">
+															<h6 className="fw400 fs12 tac">Свежая пекинская капуста</h6>
+															<h5 className="price fw600 tac fs14">158₽</h5>
+														</div>
+														<div className="price-card df ai-center jc-center">
+															<h6 className="fw400 fs12 tac">Цыпленок</h6>
+															<h5 className="price fw600 tac fs14">79₽</h5>
+														</div>
+														<div className="price-card df ai-center jc-center">
+															<h6 className="fw400 fs12 tac">Моцарелла</h6>
+															<div className="price-count df ai-center jc-between">
+																<div className="conunt-number df ai-center jc-between">
+																	<span className="db ai-center fw400 fs20">&minus;</span> <span
+																		className="db mr15 ml15 fs12 fw400">2</span> <span className="db ai-center fw400 fs20">+</span>
+																</div>
+																<h5 className="price fw600 fs14">158₽</h5>
+															</div>
+														</div>
+														<div className="price-card df ai-center jc-center">
+															<h6 className="fw400 fs12 tac">Свежая пекинская капуста</h6>
+															<h5 className="price fw600 tac fs14">158₽</h5>
+														</div>
+														<div className="price-card df ai-center jc-center">
+															<h6 className="fw400 fs12 tac">Цыпленок</h6>
+															<h5 className="price fw600 tac fs14">79₽</h5>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div className="modal-bottom pf df">
+												<div className="modal-bottom-left"></div>
+												<div className="modal-bottom-right">
+													<div className="modal-bottom-price">
+														<h5 className="fw600 mb15 df fs24">{quantity}₽ <span className="fw500 fs16 lh20 db">{oldQuantity}₽</span></h5>
+													</div>
+													<div className="modal-bottom-btn df ai-center">
+														<button onClick={mealsMap} className="fw600 fs16 c-white" type="submit">Добавить</button>
+														<div className="modal-bottom-count df ai-center jc-between">
+															<span onClick={handleDecrement} className="db fs20">&minus;</span>
+															<span className="fs12 fw500">{count}</span>
+															<span onClick={handleIncrement} className="fs20 db">+</span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						) : null}
+						{/* <!-- add-modal end --> */}
 					</div>
 				</div>
 			</section>

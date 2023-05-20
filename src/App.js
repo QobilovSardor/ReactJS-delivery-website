@@ -10,10 +10,12 @@ import ProductItem from "./products/ProductItem";
 import { useEffect, useState } from 'react'
 import Category from "./products/Category";
 import Recipe from "./products/Recipe";
+import Backet from "./products/Backet";
 
 function App() {
 	const [data, setData] = useState([]);
 	const [meals, setMeals] = useState([]);
+
 
 	useEffect(() => {
 		getAllCategory().then(data => setData(data.categories))
@@ -21,7 +23,7 @@ function App() {
 	}, []);
 
 	useEffect(() => {
-		getFilterCategory('Beef').then(data => setMeals(data.meals))
+		getFilterCategory('chicken').then(data => setMeals(data.meals))
 	}, [])
 
 	return (
@@ -34,6 +36,7 @@ function App() {
 				<Route path="/meal/:id" element={<Recipe />} />
 				<Route path="*" element={<NoteFound />} />
 			</Routes>
+			<Backet />
 			<Footer />
 		</div>
 	);

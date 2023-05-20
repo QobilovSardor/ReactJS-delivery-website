@@ -19,7 +19,6 @@ function RecipeItem(props) {
 						</div>
 						<div className="product-slider__box-content mt10">
 							<h2>{strMeal}</h2>
-							{/* <hr /> */}
 							{strArea ? <h4 className='df ai-center gap-1'><AiOutlineGlobal /> {strArea}</h4> : null}
 							<h4 className='df ai-center gap-1'><BiCategory /> {strCategory}</h4>
 							<p className='product-slider__box-descr mt10'>{strInstructions}</p>

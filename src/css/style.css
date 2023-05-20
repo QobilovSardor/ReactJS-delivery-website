@@ -15,6 +15,10 @@ body {
 	color: var(--black);
 	overflow-x: hidden;
 	background: rgb(233, 245, 233);
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 p,
@@ -111,7 +115,8 @@ svg {
 	line-height: 16px;
 	border: 1px solid transparent;
 }
-.purchase:hover{
+
+.purchase:hover {
 	border-color: #FF4C34;
 	background: #fff;
 	color: #000;
@@ -132,7 +137,7 @@ svg {
 	border-radius: 40px;
 }
 
-.header .header-search input {
+.header-search input {
 	width: 351px;
 	border: 1px solid var(--red);
 	border-radius: 15px;
@@ -141,14 +146,14 @@ svg {
 	z-index: 1;
 }
 
-.header .header-search input::placeholder {
+.header-search input::placeholder {
 	font-weight: 400;
 	font-size: 14px;
 	line-height: 17px;
 	color: #8D8D8D;
 }
 
-.header .header-search .search-icon {
+.header-search .search-icon {
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
@@ -156,7 +161,7 @@ svg {
 	z-index: 10;
 }
 
-.header .header-search .btn {
+.header-search .btn {
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -313,6 +318,17 @@ svg {
 	background: var(--red);
 	border-radius: 15px;
 	padding: 12px 8px;
+	overflow-x: scroll;
+}
+
+.sorting-bar .sorting-bar__content::-webkit-scrollbar {
+	width: 20px;
+	height: 10px;
+}
+
+.sorting-bar .sorting-bar__content::-webkit-scrollbar-thumb {
+	background: #fff;
+	border-radius: 10px;
 }
 
 .sorting-bar .sorting-bar__link {
@@ -398,6 +414,10 @@ svg {
 
 .sorting-bar .select-box__items .select-box__items-header {
 	padding: 8px 30px;
+}
+
+.select-box__items-header:hover {
+	background: #FF4C34;
 }
 
 .select-box__btn.active-btn {
@@ -518,16 +538,20 @@ svg {
 	z-index: 1;
 	padding: 8px;
 }
-.recipe-table{
+
+.recipe-table {
 	width: 100%;
 }
-.recipe-table th{
+
+.recipe-table th {
 	text-align: left;
 }
-.recipe-table td{
+
+.recipe-table td {
 	border-bottom: 1px solid #aaa;
 	padding: 10px 0;
 }
+
 .product-slider__box-content h4 {
 	margin-top: 25px;
 }
@@ -601,9 +625,11 @@ svg {
 .profitable-offer .profitable-offer__footer {
 	z-index: 10;
 }
-.product.col-lg-2{
+
+.product.col-lg-2 {
 	margin: 10px;
 }
+
 .profitable-offer .profitable-offer__card-one {
 	background-image: url(../../public/images/offer-card-bg.svg);
 }
@@ -860,11 +886,13 @@ input::-webkit-inner-spin-button {
 
 /* products html start */
 .add-modal {
-	display: none;
 	width: 100%;
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.5);
-	z-index: 2;
+	z-index: 900;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 .add-modal .modal-wrap {
@@ -1279,6 +1307,7 @@ input::-webkit-inner-spin-button {
 .product .product-left .offer .offer-card-3 {
 	background: url(../../public/images/offer-card-bg4.svg) no-repeat;
 }
+
 .product .product-left .pizza .pizza-card {
 	padding: 16px 17px 12px 17px;
 	background: #fff;
@@ -1823,7 +1852,7 @@ footer .footer-wrap .footer-right .footer-series-title span {
 		padding: 12px 12px 12px 14px;
 	}
 
-	.header .header-search input {
+	.header-search input {
 		width: 307px;
 	}
 
@@ -1850,7 +1879,7 @@ footer .footer-wrap .footer-right .footer-series-title span {
 }
 
 @media (max-width: 900px) {
-	.header .header-search input {
+	.header-search input {
 		width: 214px;
 	}
 
@@ -1977,7 +2006,7 @@ footer .footer-wrap .footer-right .footer-series-title span {
 		font-size: 13px;
 	}
 
-	.header .header-search .btn {
+	.header-search .btn {
 		font-weight: 400;
 	}
 
@@ -2001,7 +2030,7 @@ footer .footer-wrap .footer-right .footer-series-title span {
 		margin-right: 16px;
 	}
 
-	.header .header-search input {
+	.header-search input {
 		width: 165px;
 	}
 
@@ -2025,7 +2054,7 @@ footer .footer-wrap .footer-right .footer-series-title span {
 }
 
 @media (max-width: 610px) {
-	.header .header-search {
+	.header-search {
 		display: none;
 	}
 
@@ -2063,11 +2092,11 @@ footer .footer-wrap .footer-right .footer-series-title span {
 		justify-content: center;
 	}
 
-	.header .header-search input {
+	.header-search input {
 		width: 100%;
 	}
 
-	.header .header-search {
+	.header-search {
 		width: 100%;
 		margin-top: 15px;
 		display: block;
