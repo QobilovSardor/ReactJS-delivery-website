@@ -73,6 +73,9 @@ class="fw900 fs18 p20 br10 b2"
 .w-auto{
 	width: auto;
 }
+.w100{
+	width: 100%;
+}
 html {
 	font-family: sans-serif;
 	-ms-text-size-adjust: 100%;
@@ -645,7 +648,6 @@ li {
 	-ms-flex-align: end !important;
 	align-items: flex-end !important;
 }
-
 .ai-center {
 	-ms-flex-align: center !important;
 	align-items: center !important;

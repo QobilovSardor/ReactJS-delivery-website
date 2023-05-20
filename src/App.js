@@ -14,7 +14,7 @@ import Backet from "./products/Backet";
 
 function App() {
 	const [data, setData] = useState([]);
-	const [meals, setMeals] = useState([]);
+	// const [meals, setMeals] = useState([]);
 
 
 	useEffect(() => {
@@ -22,16 +22,16 @@ function App() {
 			.catch((error) => console.log(error))
 	}, []);
 
-	useEffect(() => {
-		getFilterCategory('chicken').then(data => setMeals(data.meals))
-	}, [])
+	// useEffect(() => {
+	// 	getFilterCategory(str).then(data => setMeals(data.meals))
+	// }, [])
 
 	return (
 		<div className="wrapper">
 			<Header />
 			<Routes>
 				<Route path="/" element={<ProductItem data={data} />} />
-				<Route path="/products" element={<ProductPageTwo meals={meals} />} />
+				<Route path="/products" element={<ProductPageTwo  />} />
 				<Route path="/category/:name" element={<Category />} />
 				<Route path="/meal/:id" element={<Recipe />} />
 				<Route path="*" element={<NoteFound />} />

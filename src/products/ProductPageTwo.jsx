@@ -1,20 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "react-tooltip/dist/react-tooltip.css";
 import { Link } from 'react-router-dom';
 import Loader from '../layouts/Loader';
-import { Tooltip as ReactTooltip } from 'react-tooltip'
-function ProductPageTwo({ meals = [], addToBacket }) {
-	const [showModal, setShowModal] = useState(false);
+import { Tooltip as ReactTooltip } from 'react-tooltip';
+import Backet from './Backet'
+import { getAllCategory, getFilterCategory } from '../config/api';
+
+
+function ProductPageTwo(props) {
 	const [count, setCount] = useState(1);
 	const [quantity, setQuantity] = useState(751);
 	const [oldQuantity, setOldQuantity] = useState(936);
+	const [listMeal, setListMeal] = useState([]);
 	const price = 751;
 	const oldPrice = 936;
+	const [meals, setMeals] = useState([]);
+	const [value, setValue] = useState('Beef');
+	const [product, setProduct] = useState(null);
+	const [selectedProducts, setSelectedProducts] = useState([]);
 
-	const handelClick = () => {
-		setShowModal(!showModal)
+	const toggleModal = (activeProduct) => {
+		setProduct(activeProduct);
+		setCount(1);
 	}
-
 	const handleIncrement = () => {
 		setCount(count + 1);
 		setQuantity(quantity + price);
@@ -33,12 +41,20 @@ function ProductPageTwo({ meals = [], addToBacket }) {
 		}
 	};
 
-	const mealsMap = () => {
-		meals.map(item => (
-			addToBacket(item.idMeal, item.strMeal)
-		))
-	}
+	useEffect(() => {
+		fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list')
+			.then(req => req.json())
+			.then(data => setListMeal(data.meals))
+	}, [])
 
+	useEffect(() => {
+		getFilterCategory(value).then(data => setMeals(data.meals))
+	}, [value])
+
+	const handlerChange = (e) => {
+		setValue(e.target.value);
+	}
+console.log(selectedProducts);
 	return (
 		<div className='container'>
 			<div className="back-btn__box mb15 dib">
@@ -50,32 +66,6 @@ function ProductPageTwo({ meals = [], addToBacket }) {
 				</Link>
 			</div>
 			<section className="product pr">
-				<div className="row mb25">
-					<div className="col-lg-9 col-md-9">
-						<div className="product-sotring__bar">
-							<ul className="df ai-center jc-between">
-								<li>
-									<a className="product-sotring__bar-active" href="#">Акции</a>
-								</li>
-								<li>
-									<a href="#">Выгодные предложения</a>
-								</li>
-								<li>
-									<a href="#">Пиццы</a>
-								</li>
-								<li>
-									<a href="#">Закуски</a>
-								</li>
-								<li>
-									<a href="#">Комбо</a>
-								</li>
-								<li>
-									<a href="#">Десерты</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
 				<div className="row">
 					<div className="col-lg-9 col-xl-9 col-md-9 col-sm-9 col-xs-12">
 						<div className="domin">
@@ -267,7 +257,7 @@ function ProductPageTwo({ meals = [], addToBacket }) {
 						</section>
 					</div>
 					<div className="product-right pa col-lg-3 col-xl-3 col-md-3 col-sm-3 col-xs-3">
-						<div className="basket">
+						{selectedProducts.length ? selectedProducts.map(prd => (<h1 key={prd.idMeal}>{prd.strMeal}</h1>)) : <div className="basket">
 							<h6 className="basket-title fw600 fs20 lh24">
 								Корзина
 							</h6>
@@ -301,7 +291,7 @@ function ProductPageTwo({ meals = [], addToBacket }) {
 									</div>
 								</div>
 							</div>
-						</div>
+						</div>}
 					</div>
 					<div className='product-left'>
 						<div className="row mb25">
@@ -312,33 +302,27 @@ function ProductPageTwo({ meals = [], addToBacket }) {
 							</div>
 						</div>
 
-						<section className="pizza mb40">
+						<div className="row mb25">
+							<div className="col-lg-12 col-md-9">
+								<div className="product-sotring__bar">
+									<div className="df ai-center jc-between gap-1">
+										{listMeal.length ? listMeal.map((item, itemId) => (
+											<div key={itemId}>
+												<input className='sorting-bar__link fs14 media-hide__text3 fw600 c-white' onClick={handlerChange} type="text" value={item.strCategory} onChange={handlerChange} />
+											</div>
+										)) : null}
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div className="pizza mb40">
 							<div className="row">
 								{meals.length ? meals.map(meal => (
 									<div key={meal.idMeal} className="col-lg-2 col-md-4 col-sm-4 col-xs-6 col-6 mb20">
 										<div className="pizza-card">
 											<div className="pizza-card-img pr">
-												{/* <div className="discount pa">
-													<div className="discount-series mb5 discount-series-1 df ai-center">
-														<div className="series-icon mr5 df ai-center">
-															<img src="./images/discount-icon.svg" alt="" />
-														</div>
-														<p className="fw600 c-white">Скидка 10%</p>
-													</div>
-													<div className="discount-series discount-series-2 df ai-center">
-														<div className="series-icon mr5 df ai-center">
-															<img src="./images/icon-foiz.svg" alt="" />
-														</div>
-														<p className="fw600 c-white">Выгодно</p>
-													</div>
-												</div> */}
 												<div className='pr'>
-													{/* <div className="cashback df ai-center pa">
-														<div className="series-icon mr5 df ai-center">
-															<img src="./images/icon-rubl.svg" alt="" />
-														</div>
-														<p className="fw600 c-white">Кэшбэк 3%</p>
-													</div> */}
 													<img src={meal.strMealThumb} alt="" />
 												</div>
 												<div>
@@ -349,132 +333,47 @@ function ProductPageTwo({ meals = [], addToBacket }) {
 												</div>
 											</div>
 											<div className="pizza-card-about">
-												<button onClick={handelClick} type="button" className="purchase fw500 c-white">Добавить</button>
+												<button onClick={() => toggleModal(meal)} type="button" className="purchase fw500 c-white">Добавить</button>
 											</div>
 										</div>
 									</div>
 								)) : <Loader />}
 							</div>
-						</section>
+						</div>
 
-						{/* <!-- add-modal start --> */}
-						{showModal ? (
+						{product ? (
 							<div className="add-modal pf">
-								<div className="modal-wrap pr">
-									<button onClick={handelClick} type="button" className="modal-close pa">
-										<img src="./images/clode-modal.svg" alt="" />
-									</button>
-									<div className="df media-modal">
-										<div className="modal-left mr15">
-											<div className="modal-img">
-												<img src="./images/modal-pizza.png" alt="" />
-											</div>
+								<div className='modal-dialog'>
+									<div className="modal-close__btn">
+										<button onClick={() => toggleModal(null)} type="button" className="modal-close pa">
+											<img src="./images/clode-modal.svg" alt="" />
+										</button>
+									</div>
+									<div className="row ai-end">
+										<div className="col-lg-6">
+											<img src={product.strMealThumb} className='w100' alt="" />
 										</div>
-										<div className="modal-right pr">
+
+										<div className="col-lg-6">
 											<div className="modal-about">
-												<h5 className="fw600 fs24">Пицца Четыре сыра</h5>
-												<p className="fw400 fs14">Состав: Тесто (20х30 см), сливочный соус, моцарелла, сыр с плесенью,
-													чеддер,
-													пармезан</p>
+												<h1>{product.strMeal}</h1>
 											</div>
-											<div className="pizza-tools mt15">
-												<div className="tool-series">
-													<h5 className="fw400 fs14 db mb5 mt15">Размер</h5>
-													<div className="tool size-tool df ai-center">
-														<button className="fw400 fs14 size-click" type="button">Маленькая</button>
-														<button className="fw400 fs14" type="button">Средняя</button>
-														<button className="fw400 fs14" type="button">Большая</button>
-													</div>
-												</div>
-												<div className="tool-series dough-series">
-													<h5 className="fw400 fs14 db mt15">Тесто</h5>
-													<div className="tool dough-tool df ai-center">
-														<button className="fw400 fs14 dough-click" type="button">Традиционное</button>
-														<button className="fw400 fs14" type="button">Тонкое</button>
-													</div>
-												</div>
-												<div className="modal-price mt15">
-													<h5 className="fw400 fs14 db mb5 mt15">Добавить по вкусу</h5>
-													<div className="price-tools df jc-between">
-														<div className="price-card price-card-click df ai-center jc-center">
-															<h6 className="fw400 fs12 tac">Моцарелла</h6>
-															<div className="price-count df ai-center jc-between">
-																<div className="conunt-number df ai-center jc-between">
-																	<span className="db ai-center fw400 fs20">&minus;</span> <span
-																		className="db mr15 ml15 fs12 fw400">2</span> <span className="db ai-center fw400 fs20">+</span>
-																</div>
-																<h5 className="price fw600 fs14">158₽</h5>
-															</div>
-														</div>
-														<div className="price-card df ai-center jc-center">
-															<h6 className="fw400 fs12 tac">Свежая пекинская капуста</h6>
-															<h5 className="price fw600 tac fs14">158₽</h5>
-														</div>
-														<div className="price-card df ai-center jc-center">
-															<h6 className="fw400 fs12 tac">Цыпленок</h6>
-															<h5 className="price fw600 tac fs14">79₽</h5>
-														</div>
-														<div className="price-card df ai-center jc-center">
-															<h6 className="fw400 fs12 tac">Ветчина</h6>
-															<div className="price-count df ai-center jc-between">
-																<div className="conunt-number df ai-center jc-between">
-																	<span className="db ai-center fw400 fs20">&minus;</span> <span
-																		className="db mr15 ml15 fs12 fw400">2</span> <span className="db ai-center fw400 fs20">+</span>
-																</div>
-																<h5 className="price fw600 fs14">158₽</h5>
-															</div>
-														</div>
-														<div className="price-card df ai-center jc-center">
-															<h6 className="fw400 fs12 tac">Свежая пекинская капуста</h6>
-															<h5 className="price fw600 tac fs14">158₽</h5>
-														</div>
-														<div className="price-card df ai-center jc-center">
-															<h6 className="fw400 fs12 tac">Цыпленок</h6>
-															<h5 className="price fw600 tac fs14">79₽</h5>
-														</div>
-														<div className="price-card df ai-center jc-center">
-															<h6 className="fw400 fs12 tac">Моцарелла</h6>
-															<div className="price-count df ai-center jc-between">
-																<div className="conunt-number df ai-center jc-between">
-																	<span className="db ai-center fw400 fs20">&minus;</span> <span
-																		className="db mr15 ml15 fs12 fw400">2</span> <span className="db ai-center fw400 fs20">+</span>
-																</div>
-																<h5 className="price fw600 fs14">158₽</h5>
-															</div>
-														</div>
-														<div className="price-card df ai-center jc-center">
-															<h6 className="fw400 fs12 tac">Свежая пекинская капуста</h6>
-															<h5 className="price fw600 tac fs14">158₽</h5>
-														</div>
-														<div className="price-card df ai-center jc-center">
-															<h6 className="fw400 fs12 tac">Цыпленок</h6>
-															<h5 className="price fw600 tac fs14">79₽</h5>
-														</div>
-													</div>
-												</div>
+											<div className="modal-bottom-price">
+												<h5 className="fw600 df mb15 fs24">{quantity}₽ <span className="fw500 fs16 lh20 db">{oldQuantity}₽</span></h5>
 											</div>
-											<div className="modal-bottom pf df">
-												<div className="modal-bottom-left"></div>
-												<div className="modal-bottom-right">
-													<div className="modal-bottom-price">
-														<h5 className="fw600 mb15 df fs24">{quantity}₽ <span className="fw500 fs16 lh20 db">{oldQuantity}₽</span></h5>
-													</div>
-													<div className="modal-bottom-btn df ai-center">
-														<button onClick={mealsMap} className="fw600 fs16 c-white" type="submit">Добавить</button>
-														<div className="modal-bottom-count df ai-center jc-between">
-															<span onClick={handleDecrement} className="db fs20">&minus;</span>
-															<span className="fs12 fw500">{count}</span>
-															<span onClick={handleIncrement} className="fs20 db">+</span>
-														</div>
-													</div>
+											<div className='df gap-1'>
+												<div className="modal-bottom-count df ai-center">
+													<span onClick={handleDecrement} className="db fs20">&minus;</span>
+													<b className="fs12 fw500">{count}</b>
+													<span onClick={handleIncrement} className="fs20 db">+</span>
 												</div>
+												<button onClick={() => setSelectedProducts((prevState) => ([{ ...product, count }, ...prevState]))} className="fw600 fs16 c-white btn" type="submit">Добавить</button>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						) : null}
-						{/* <!-- add-modal end --> */}
 					</div>
 				</div>
 			</section>

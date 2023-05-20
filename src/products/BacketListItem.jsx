@@ -1,8 +1,12 @@
 import React from 'react'
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 
-function BacketListItem() {
+function BacketListItem(props) {
+	const { strMeal, strMealThumb } = props
 	return (
-		<div>BacketListItem</div>
+		<div>
+			asas
+		</div>
 	)
 }
 

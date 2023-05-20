@@ -10,13 +10,8 @@ function Category() {
 	const [meals, setMeals] = useState([]);
 	const [show, setShow] = useState(false);
 	const [showBox, setShowBox] = useState(false);
-	const [listMeal, setListMeal] = useState([]);
 
-	useEffect(() => {
-		fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list')
-			.then(req => req.json())
-			.then(data => setListMeal(data.meals))
-	}, [])
+	
 
 	useEffect(() => {
 		getFilterCategory(name).then(data => {
@@ -37,14 +32,8 @@ function Category() {
 			<div className="row">
 				<div className="col-12">
 					<div className="sorting-bar">
-						<div className="sorting-bar__content df ai-center jc-between">
-							<ul className="df ai-center jc-between">
-								{listMeal.length ? listMeal.map((item, itemId) => (
-									<li key={itemId}>
-										<a className='sorting-bar__link fs14 media-hide__text3 fw600 c-white' href="#!">{item.strCategory}</a>
-									</li>
-								)) : null}
-							</ul>
+						{/* <div className="sorting-bar__content df ai-center jc-between">
+							
 							<div className="df jc-between">
 								<div className="pr">
 									<div className="select-box df ai-center" onClick={() => setShow(!show)}>
@@ -127,7 +116,7 @@ function Category() {
 									) : null}
 								</div>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</div>
